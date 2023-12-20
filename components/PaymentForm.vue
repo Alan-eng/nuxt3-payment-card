@@ -10,7 +10,14 @@
 				v-model="payingAmount"
 			/>
 		</div>
-		<PaymentCard :payingAmount="payingAmount" />
+		<PaymentCard
+			:payingAmount="payingAmount"
+			@updatePaymentCardData="
+				(cardData) => {
+					formData = cardData
+				}
+			"
+		/>
 		<div class="flex items-center mt-8 px-2">
 			<input class="mr-2" type="checkbox" name="paying-amount" />
 			<label for="paying-amount" class="text-xs f"
@@ -18,12 +25,25 @@
 				<br />и подключения автоплатежей.
 			</label>
 		</div>
-		<PaymentSubmit :payingAmount="payingAmount"/>
+		<PaymentSubmit @submitForm="openModal" :payingAmount="payingAmount" />
 	</div>
 </template>
 
 <script setup>
 const payingAmount = ref(159)
+const formData = ref({})
+
+const openModal = () => {
+	setTimeout(
+		() =>
+			alert({
+				toString: function () {
+					return `Успех!, ${JSON.stringify(formData.value)}`
+				},
+			}),
+		500
+	)
+}
 </script>
 
 <style>
@@ -36,7 +56,7 @@ const payingAmount = ref(159)
 	position: absolute;
 }
 
-.payment-form input[type=number] {
+.payment-form input[type="number"] {
 	color: #000;
 	appearance: textfield;
 	-webkit-appearance: none;

@@ -18,7 +18,10 @@
 					type="text"
 					name="card-number"
 					placeholder="0000 – 0000 – 0000 – 0000"
+					pattern="[0-9]{4}"
 					:style="{ width: '100%', maxWidth: '280px' }"
+					v-model="cardNumber"
+					@change="$emit('updatePaymentCardData', cardData)"
 				/>
 			</div>
 
@@ -29,21 +32,33 @@
 						type="text"
 						name="card-holder"
 						:style="{ width: '100%', maxWidth: '280px' }"
+						v-model="cardHolder"
+						@change="$emit('updatePaymentCardData', cardData)"
 					/>
 				</div>
 				<div class="flex flex-col w-1/3">
-					<label for="card-date" class="pb-2">Expiration date</label>
+					<label for="expiration-month" class="pb-2">Expiration date</label>
 					<div class="flex">
 						<input
 							type="number"
-							name="expiration-date"
+							min="0"
+							max="31"
+							pattern="\d*"
+							name="expiration-month"
 							:style="{ width: '100%', maxWidth: '50px' }"
+							v-model="expirationMonth"
+							@change="$emit('updatePaymentCardData', cardData)"
 						/>
 						/
 						<input
 							type="number"
-							name="expiration-date"
+							min="0"
+							max="12"
+							 pattern="\d*"
+							name="expiration-year"
 							:style="{ width: '100%', maxWidth: '50px' }"
+							v-model="expirationYear"
+							@change="$emit('updatePaymentCardData', cardData)"
 						/>
 					</div>
 				</div>
@@ -59,15 +74,32 @@
 		>
 			<label for="cvv" class="pb-2">CVC/CVV</label>
 			<input
-				type="text"
+				type="number"
+				min="0"
 				name="cvv"
 				:style="{ width: '100%', maxWidth: '110px' }"
+				v-model="cvv"
+				@change="$emit('updatePaymentCardData', cardData)"
 			/>
 		</div>
 	</div>
 </template>
 
 <script setup>
+const cardNumber = ref(0)
+const cardHolder = ref("")
+const expirationMonth = ref(0)
+const expirationYear = ref(0)
+const cvv = ref(0)
+
+const cardData = computed(() => {
+	return {
+		cardNumber: cardNumber.value,
+		cardHolder: cardHolder.value,
+		expirationDate: `${expirationMonth.value} / ${expirationYear.value}`,
+		cvv: cvv.value,
+	}
+})
 defineProps({
 	payingAmount: Number,
 })
