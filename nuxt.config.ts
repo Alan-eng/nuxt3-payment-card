@@ -4,6 +4,7 @@ export default defineNuxtConfig({
 	devServer: {
 		port: 4000,
 	},
+	pages: true,
 	devtools: { enabled: true },
 	css: ["~/assets/css/main.css"],
 	postcss: {
@@ -12,7 +13,7 @@ export default defineNuxtConfig({
 			autoprefixer: {},
 		},
 	},
-	modules: ["nuxt-primevue"],
+	modules: ["nuxt-primevue", "@pinia/nuxt"],
 	components: {
 		global: true,
 		dirs: ["~/components"],

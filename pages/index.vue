@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!-- <PaymentForm /> -->
+    <PaymentCard />
      <NuxtPage />
-    <!-- <NuxtWelcome /> -->
   </div>
 </template>
