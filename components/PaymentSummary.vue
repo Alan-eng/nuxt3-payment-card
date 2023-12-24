@@ -7,7 +7,7 @@
 				Итого <br />
 				к зачислению
 			</div>
-			<SummaryValue />
+			<SummaryValue :payingAmount="payingAmount"/>
 			<div class="text-xs font-light">Без комиссии</div>
 		</div>
 		<button @click="$emit('submitForm')" class="submit py-2 px-20">
@@ -16,6 +16,10 @@
 	</div>
 </template>
 
+<script setup>
+import { storeToRefs } from "pinia"
+const { payingAmount } = storeToRefs(usePaymentCardStore())
+</script>
 
 <style>
 .submit {

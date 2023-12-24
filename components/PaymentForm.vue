@@ -14,51 +14,39 @@
 			</legend>
 			<div class="flex flex-col my-4">
 				<label for="card-number" class="pb-2">Card Number </label>
-				<input
-					type="text"
-					name="card-number"
-					placeholder="0000 – 0000 – 0000 – 0000"
-					pattern="[0-9]{4}"
-					:style="{ width: '100%', maxWidth: '280px' }"
+				<BaseInput
 					v-model="cardNumber"
-					@change="$emit('updatePaymentCardData', cardData)"
+					type="number"
+					:style="{ width: '100%', maxWidth: '280px' }"
+					className="p-2"
 				/>
 			</div>
 
 			<div class="flex grow justify-between my-4">
 				<div class="flex grow flex-col mr-4">
 					<label for="card-holder" class="pb-2">Card Holder</label>
-					<input
-						type="text"
-						name="card-holder"
-						:style="{ width: '100%', maxWidth: '280px' }"
+					<BaseInput
 						v-model="cardHolder"
-						@change="$emit('updatePaymentCardData', cardData)"
+						type="text"
+						:style="{ width: '100%', maxWidth: '280px' }"
+						className="p-2"
 					/>
 				</div>
 				<div class="flex flex-col w-1/3">
 					<label for="expiration-month" class="pb-2">Expiration date</label>
 					<div class="flex">
-						<input
-							type="number"
-							min="0"
-							max="31"
-							pattern="\d*"
-							name="expiration-month"
-							:style="{ width: '100%', maxWidth: '50px' }"
+						<BaseInput
 							v-model="expirationMonth"
-							@change="$emit('updatePaymentCardData', cardData)"
+							type="number"
+							:style="{ width: '100%', maxWidth: '50px' }"
+							className="p-2"
 						/>
 						/
-						<input
-							type="number"
-							min="0"
-							max="12"
-							pattern="\d*"
-							name="expiration-year"
-							:style="{ width: '100%', maxWidth: '50px' }"
+						<BaseInput
 							v-model="expirationYear"
-							@change="$emit('updatePaymentCardData', cardData)"
+							type="number"
+							:style="{ width: '100%', maxWidth: '50px' }"
+							className="p-2"
 						/>
 					</div>
 				</div>
@@ -73,49 +61,28 @@
 			}"
 		>
 			<label for="cvv" class="pb-2">CVC/CVV</label>
-			<input
-				type="number"
-				min="0"
-				name="cvv"
+			<BaseInput
+				:modelValue="cvv"
 				:style="{ width: '100%', maxWidth: '110px' }"
-				v-model="cvv"
-				@change="$emit('updatePaymentCardData', cardData)"
+				className="p-2"
 			/>
 		</div>
 	</div>
 </template>
 
 <script setup>
-const props = defineProps({
-	payingAmount: Number,
-	mock: {
-		date: Number,
-		name: String,
-		number: Number,
-		surname: String
-	}
-})
-const cardNumber = ref(0)
-const cardHolder = ref(`${props.mock?.name}`)
-const expirationMonth = ref(0)
-const expirationYear = ref(0)
-const cvv = ref(0)
-
-const cardData = computed(() => {
-	return {
-		cardNumber: cardNumber.value,
-		cardHolder: cardHolder.value,
-		expirationDate: `${expirationMonth.value} / ${expirationYear.value}`,
-		cvv: cvv.value,
-	}
-})
-
+import { storeToRefs } from "pinia"
+const {
+	payingAmount,
+	cardNumber,
+	cardHolder,
+	expirationMonth,
+	expirationYear,
+	cvv,
+} = storeToRefs(usePaymentCardStore())
 </script>
 
 <style scoped>
-input {
-	padding: 10px;
-}
 .payment-card label,
 legend {
 	color: white;

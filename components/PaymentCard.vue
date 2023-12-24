@@ -1,15 +1,11 @@
 <template>
 	<div class="payment-card">
-		<PaymentInput />
-
-		<PaymentForm
-			:payingAmount="payingAmount"
-			@updatePaymentCardData="
-				(cardData) => {
-					formData = cardData
-				}
-			"
+		<i class="icon">&euro; </i>
+		<BaseInput
+			v-model:modelValue="payingAmount"
+			className="border-solid border-2 border-black pl-4"
 		/>
+		<PaymentForm />
 		<div class="flex items-center mt-8 px-2">
 			<input class="mr-2" type="checkbox" name="paying-amount" />
 			<label for="paying-amount" class="text-xs f"
@@ -17,12 +13,13 @@
 				<br />и подключения автоплатежей.
 			</label>
 		</div>
-		<PaymentSummary @submitForm="openModal" :payingAmount="payingAmount" />
+		<PaymentSummary @submitForm="openModal" />
 	</div>
 </template>
 
 <script setup>
-const formData = ref({})
+import { storeToRefs } from "pinia";
+const { payingAmount } = storeToRefs(usePaymentCardStore())
 
 const openModal = () => {
 	setTimeout(
