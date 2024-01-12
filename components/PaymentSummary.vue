@@ -10,9 +10,7 @@
 			<SummaryValue :payingAmount="payingAmount"/>
 			<div class="text-xs font-light">Без комиссии</div>
 		</div>
-		<button @click="$emit('submitForm')" class="submit py-2 px-20">
-			Оплатить
-		</button>
+		<BaseButton>Оплатить</BaseButton>
 	</div>
 </template>
 

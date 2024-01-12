@@ -1,5 +1,18 @@
 <template>
+	<label v-if="$slots.label">
+		<span class="inline-block pb-2 text-white">
+			<slot name="label" />
+		</span>
+		<input
+			:type="type"
+			:class="className"
+			:style="style"
+			:value="modelValue"
+			@input="$emit('update:modelValue', $event.target.value)"
+		/>
+	</label>
 	<input
+		v-else
 		:type="type"
 		:class="className"
 		:style="style"
